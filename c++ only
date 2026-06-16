@@ -1,0 +1,132 @@
+#include <iostream>
+#include <cmath>
+#include <string>
+#include<vector>
+#include <utility>
+using namespace std;
+struct Student {
+    int id; 
+    string name; 
+    int grade; 
+    vector<string> courses; 
+};
+vector<Student> students; 
+
+void addstudent() {
+    Student s; 
+    cout << "Enter your ID "; 
+    cin >> s.id;
+    cout << "Enter your Name ";
+    cin.ignore();
+    getline(cin, s.name);
+    cout << "Enter your grade ";
+    cin >> s.grade;
+    students.push_back(s);
+    cout << "Student added succefully " << endl; 
+}
+
+void deletestudent() {
+    int id; 
+    cout << "Enter your ID student"; 
+    cin >> id;
+    for (int i = 0; i < students.size(); i++) {
+        if (students[i].id == id) {
+            students.erase(students.begin() + i);
+            cout << "Student has been deleted succefully " << endl;
+            return;
+        }
+    }
+    cout << "Students not found " << endl;
+}
+void addCourseToStudent() {
+    int id;
+    cout << "Enter your ID student ";
+    cin >> id;
+    for (int i = 0; i < students.size(); i++) {
+        if (students[i].id == id) {
+            string course; 
+            cout << "Enter Course name "; 
+            cin.ignore();
+            getline(cin, course);
+            students[i].courses.push_back(course);
+            cout << "Course Added succefully " << endl;
+            return; 
+        }
+    }
+    cout << "Students not found " << endl; 
+
+}
+void deleteCourseToStudent() {
+    int id;
+    cout << "Enter your ID student ";
+    cin >> id;
+    for (int i = 0; i < students.size(); i++) {
+        if (students[i].id == id) {
+            string course;
+            cout << "Enter course name to delete "; 
+            getline(cin, course); 
+            for (int j = 0; i < students[i].courses.size(); j++) {
+                if (students[i].courses[j] == course) {
+                    students[i].courses.erase(students[i].courses.begin() + j);
+                }
+                cout << "Course deleted succefully " << endl; 
+            }
+        }
+    }
+    cout << "Students not found " << endl; 
+}
+void DisplayallStudent() {
+    if (students.empty()) {
+        cout << "NO Students avilable ";
+        return;
+    }
+    else {
+        cout << "List of students: " << endl; 
+        for (int i = 0; i < students.size(); i++) {
+            cout << "ID: " << endl;
+            cout << students[i].id << endl;
+            cout << "Name: " << endl; 
+            cout << students[i].name << endl;
+            cout << "grade: " << endl;
+            cout << students[i].grade << endl; 
+            cout << "courses: " << endl;
+            for (int j = 0; j < students[i].courses.size(); j++) {
+                cout << students[i].courses[j] << endl;
+            }
+
+        }
+    }
+    cout << endl;
+
+}
+void menu() {
+
+    int choice; 
+    do {
+        cout << "Student management system " << endl;
+        cout << "1. Add Student " << endl; 
+        cout << "2. delete Student " << endl;
+        cout << "3. Add courses to student " << endl;
+        cout << "4. delte courses to Student " << endl;
+        cout << "5. display all Student " << endl;
+        cout << "6. exit " << endl;
+        cout << "Enter your choice " << endl; 
+        cin >> choice;
+
+        switch (choice) {
+        case 1: addstudent(); break; 
+        case 2: deletestudent(); break;
+        case 3: addCourseToStudent(); break;
+        case 4: deleteCourseToStudent(); break;
+        case 5: DisplayallStudent(); break;
+        case 6: "goodbye "; break;
+        default: cout << "Invalid choice " << endl; 
+        }
+    } while (choice != 6);
+}
+
+int main() {
+    menu();
+
+    return 0;
+}
