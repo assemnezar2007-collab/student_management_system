@@ -1,0 +1,228 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Student {
+private:
+    string name;
+    int id;
+    int grade;
+    vector<string> courses;
+
+public:
+    Student(int id, string name, int grade) {
+        this->id = id;
+        this->name = name;
+        this->grade = grade;
+    }
+
+    int get_id() {
+        return id;
+    }
+
+    string get_name() {
+        return name;
+    }
+
+    int get_grade() {
+        return grade;
+    }
+
+    void addcourse(string course) {
+        courses.push_back(course);
+    }
+
+    void deletecourse(string course) {
+        for (int i = 0; i < courses.size(); i++) {
+            if (courses[i] == course) {
+                courses.erase(courses.begin() + i);
+                cout << "Course deleted successfully.\n";
+                return;
+            }
+        }
+
+        cout << "Course not found.\n";
+    }
+
+    void display() {
+        cout << "ID: " << id << endl;
+        cout << "Name: " << name << endl;
+        cout << "Grade: " << grade << endl;
+
+        cout << "Courses: ";
+
+        if (courses.empty()) {
+            cout << "None";
+        }
+        else {
+            cout << endl;
+
+            for (int i = 0; i < courses.size(); i++) {
+                cout << "- " << courses[i] << endl;
+            }
+        }
+
+        cout << endl;
+    }
+};
+
+class StudentManager {
+private:
+    vector<Student> students;
+
+public:
+
+    void addstudent() {
+        int id, grade;
+        string name;
+
+        cout << "Enter Student ID: ";
+        cin >> id;
+
+        cout << "Enter Student Name: ";
+        cin.ignore();
+        getline(cin, name);
+
+        cout << "Enter Student Grade: ";
+        cin >> grade;
+
+        students.push_back(Student(id, name, grade));
+
+        cout << "Student added successfully.\n";
+    }
+
+    void deleteStudent() {
+        int id;
+
+        cout << "Enter Student ID: ";
+        cin >> id;
+
+        for (int i = 0; i < students.size(); i++) {
+            if (students[i].get_id() == id) {
+                students.erase(students.begin() + i);
+
+                cout << "Student deleted successfully.\n";
+                return;
+            }
+        }
+
+        cout << "Student not found.\n";
+    }
+
+    void addCourseToStudent() {
+        int id;
+        string course;
+
+        cout << "Enter Student ID: ";
+        cin >> id;
+
+        for (int i = 0; i < students.size(); i++) {
+            if (students[i].get_id() == id) {
+
+                cin.ignore();
+                cout << "Enter Course Name: ";
+                getline(cin, course);
+
+                students[i].addcourse(course);
+
+                cout << "Course added successfully.\n";
+                return;
+            }
+        }
+
+        cout << "Student not found.\n";
+    }
+
+    void deleteCourseFromStudent() {
+        int id;
+        string course;
+
+        cout << "Enter Student ID: ";
+        cin >> id;
+
+        for (int i = 0; i < students.size(); i++) {
+            if (students[i].get_id() == id) {
+
+                cin.ignore();
+                cout << "Enter Course Name: ";
+                getline(cin, course);
+
+                students[i].deletecourse(course);
+                return;
+            }
+        }
+
+        cout << "Student not found.\n";
+    }
+
+    void displayAllStudents() {
+        if (students.empty()) {
+            cout << "No students available.\n";
+            return;
+        }
+
+        for (int i = 0; i < students.size(); i++) {
+            cout << "\n========================\n";
+            students[i].display();
+            cout << "========================\n";
+        }
+    }
+
+    void menu() {
+        int choice;
+
+        do {
+            cout << "\n===== Student Management System =====\n";
+            cout << "1. Add Student\n";
+            cout << "2. Delete Student\n";
+            cout << "3. Add Course to Student\n";
+            cout << "4. Delete Course from Student\n";
+            cout << "5. Display All Students\n";
+            cout << "6. Exit\n";
+
+            cout << "Enter your choice: ";
+            cin >> choice;
+
+            switch (choice) {
+
+            case 1:
+                addstudent();
+                break;
+
+            case 2:
+                deleteStudent();
+                break;
+
+            case 3:
+                addCourseToStudent();
+                break;
+
+            case 4:
+                deleteCourseFromStudent();
+                break;
+
+            case 5:
+                displayAllStudents();
+                break;
+
+            case 6:
+                cout << "Goodbye!\n";
+                break;
+
+            default:
+                cout << "Invalid choice.\n";
+            }
+
+        } while (choice != 6);
+    }
+};
+
+int main() {
+
+    StudentManager manager;
+    manager.menu();
+
+    return 0;
+}
